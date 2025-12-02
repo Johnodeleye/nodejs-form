@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-12-02T09:04:58.013Z",
+  "formData": {
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "phone": "+2348012345678",
+    "service": "Payroll Services",
+    "message": "Hello, I'm interested in your payroll services for my company.",
+    "contactMethod": "Email",
+    "companyName": "Tech Solutions Ltd",
+    "numEmployees": "26-50",
+    "interests": [
+      "Payroll",
+      "Health Insurance"
+    ],
+    "uploadedFiles": [
+      "https://res.cloudinary.com/dafkotzvy/image/upload/v1234567890/sample.pdf",
+      "https://res.cloudinary.com/dafkotzvy/image/upload/v1234567890/document.docx"
+    ]
+  },
+  "emailError": "connect ETIMEDOUT 74.125.71.109:587"
+}

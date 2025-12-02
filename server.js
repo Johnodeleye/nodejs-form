@@ -12,7 +12,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
       '',
       process.env.FRONTEND_URL 
     ].filter(Boolean)
-  : ['http://localhost:3000', 'http://10.88.34.131:3000'];
+  : ['http://localhost:3001', 'http://10.88.34.131:3000'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -50,8 +50,13 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 100000 }));
 app.use(morgan("dev"));
 
+
 const contactRoutes = require("./routes/contact");
+const cloudinaryRoutes = require("./routes/cloudinary.route");
+
+
 app.use("/api/contact", contactRoutes);
+app.use("/api/cloudinary", cloudinaryRoutes);
 
 app.get("/api/cors-test", (req, res) => {
   res.json({ 
@@ -86,6 +91,22 @@ app.use((err, req, res, next) => {
     });
   }
   
+  // Handle multer errors
+  if (err.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({
+        success: false,
+        error: 'File too large. Maximum size is 10MB'
+      });
+    }
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(400).json({
+        success: false,
+        error: 'Unexpected file field'
+      });
+    }
+  }
+  
   res.status(500).json({
     success: false,
     error: 'Internal server error',
@@ -106,4 +127,5 @@ app.listen(PORT, async () => {
   console.log(`🚀 Server is running on port ${PORT}`);
   console.log(`🌐 CORS enabled for:`, allowedOrigins);
   console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`☁️  Cloudinary configured for cloud: ${process.env.CLOUDINARY_CLOUD_NAME || 'Not configured'}`);
 });
