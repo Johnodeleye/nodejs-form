@@ -2,8 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const mongoose = require('mongoose');
 
 const app = express();
+
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 app.set("trust proxy", 1);
 
@@ -50,13 +55,13 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 100000 }));
 app.use(morgan("dev"));
 
-
 const contactRoutes = require("./routes/contact");
 const cloudinaryRoutes = require("./routes/cloudinary.route");
-
+const authRoutes = require("./routes/auth");
 
 app.use("/api/contact", contactRoutes);
 app.use("/api/cloudinary", cloudinaryRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/api/cors-test", (req, res) => {
   res.json({ 
@@ -78,7 +83,8 @@ app.get("/health", (req, res) => {
   res.json({ 
     status: "OK", 
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
 });
 
@@ -91,7 +97,6 @@ app.use((err, req, res, next) => {
     });
   }
   
-  // Handle multer errors
   if (err.name === 'MulterError') {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({

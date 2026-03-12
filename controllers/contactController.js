@@ -26,18 +26,19 @@ const submitContactForm = async (req, res) => {
       });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD || process.env.GMAIL_PASS
-      },
-      tls: {
-        rejectUnauthorized: false
-      }
-    });
+ const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,    // THIS MUST BE FALSE
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
 
     const interestsText = Array.isArray(interests) ? interests.join(', ') : interests;
     
