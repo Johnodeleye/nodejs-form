@@ -58,10 +58,12 @@ app.use(morgan("dev"));
 const contactRoutes = require("./routes/contact");
 const cloudinaryRoutes = require("./routes/cloudinary.route");
 const authRoutes = require("./routes/auth");
+const inactiveDateRoutes = require("./routes/inactiveDate");
 
 app.use("/api/contact", contactRoutes);
 app.use("/api/cloudinary", cloudinaryRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/inactive", inactiveDateRoutes);
 
 app.get("/api/cors-test", (req, res) => {
   res.json({ 
