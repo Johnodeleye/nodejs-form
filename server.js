@@ -14,7 +14,7 @@ app.set("trust proxy", 1);
 
 const allowedOrigins = process.env.NODE_ENV === 'production' 
   ? [
-      '',
+      'https://bankston-website-bqdv.vercel.app',
       process.env.FRONTEND_URL 
     ].filter(Boolean)
   : ['http://localhost:5173', 'http://10.88.34.131:3000'];
