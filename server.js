@@ -17,7 +17,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
       '',
       process.env.FRONTEND_URL 
     ].filter(Boolean)
-  : ['http://localhost:3001', 'http://10.88.34.131:3000'];
+  : ['http://localhost:5173', 'http://10.88.34.131:3000'];
 
 const corsOptions = {
   origin: function (origin, callback) {

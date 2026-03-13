@@ -8,8 +8,8 @@ const createOrUpdateInactiveDate = async (req, res) => {
       return res.status(400).json({ success: false, error: 'Date is required' });
     }
 
-    const targetDate = new Date(date);
-    targetDate.setHours(0, 0, 0, 0);
+    const dateString = date.includes('T') ? date.split('T')[0] : date;
+    const targetDate = new Date(`${dateString}T00:00:00.000Z`);
 
     const existingRecord = await InactiveDate.findOne({ date: targetDate });
 
@@ -80,8 +80,8 @@ const getInactiveDateByDate = async (req, res) => {
   try {
     const { date } = req.params;
     
-    const targetDate = new Date(date);
-    targetDate.setHours(0, 0, 0, 0);
+    const dateString = date.includes('T') ? date.split('T')[0] : date;
+    const targetDate = new Date(`${dateString}T00:00:00.000Z`);
 
     const inactiveDate = await InactiveDate.findOne({ date: targetDate });
 
@@ -133,8 +133,8 @@ const checkDateAvailability = async (req, res) => {
       return res.status(400).json({ success: false, error: 'Date is required' });
     }
 
-    const targetDate = new Date(date);
-    targetDate.setHours(0, 0, 0, 0);
+    const dateString = date.includes('T') ? date.split('T')[0] : date;
+    const targetDate = new Date(`${dateString}T00:00:00.000Z`);
 
     const inactiveDate = await InactiveDate.findOne({ date: targetDate });
 
